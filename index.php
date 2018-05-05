@@ -1,14 +1,29 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-$_POST = json_decode(file_get_contents('php://input'), true);
 
-$token = $_POST['token'];
 
-require('./user_auth.php');
+//testing purposes only
+/*
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    var_dump($_SERVER);
+    $_POST = json_decode(file_get_contents('php://input'), true);
+    $token = $_POST['token'];
+}
+else{
+    $token = $argv[1];
+}
+*/
+$token = $argv[1];
+
+
+require('/home/jlxc106/Website/site_watch/user_auth.php');
 
 //http://httpd.apache.org/docs/current/logs.html#combined
-$access_path = "/home/jlxc106/log/2018-05-02.log";
+$today = date("Y-m-d");
+
+$access_path = "/home/jlxc106/log/$today.log";
 $OUTPUT = [];
 $myfile = fopen($access_path, "r") or die("Unable to open file!");
 
@@ -52,9 +67,11 @@ function parse_line($file_line, &$output){
 }
 
 $outputJSON = json_encode($OUTPUT);
-echo($outputJSON);
+$make_file = fopen("/home/jlxc106/Website/site_watch/logs/$today.log","w") or die("Unable to create new file");
+fwrite($make_file, $outputJSON);
+fclose($make_file);
 fclose($myfile);
 exit();
 
-
 ?>
+
