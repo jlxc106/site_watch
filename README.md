@@ -1,4 +1,13 @@
-Coming soontm
-To do: 
-1) Set up MongoDB to store logs
-2) Establish front-end to display logs in grapical format
+# Site Watch
+
+Application that displays apache logs of websites. Access logs are updated at midnight. 
+
+
+## Technologies Used
+* PHP
+* Shell Script
+* Cronjob
+* LAMP Stack
+
+## To do: 
+[site_analytics](https://github.com/jlxc106/site_analytics)

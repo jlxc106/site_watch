@@ -18,7 +18,7 @@ else{
 $token = $argv[1];
 
 
-require('/home/jlxc106/Website/site_watch/user_auth.php');
+require'user_auth.php';
 
 //http://httpd.apache.org/docs/current/logs.html#combined
 $today = date("Y-m-d");
@@ -62,12 +62,13 @@ function parse_line($file_line, &$output){
     $referrer = substr($file_line, 1, $position_end_referrer-2);
     //user agent
     $user_agent = substr($file_line, $position_end_referrer + 2, -2);
-
-    array_push($output , (object)["ip" => $ip, "access date" => $access_date, "request" => $request, "status" => $status, "size" => $size, "referrer"=> $referrer, "user agent" => $user_agent]);
+    if($ip != ''){
+        array_push($output , (object)["ip" => $ip, "access date" => $access_date, "request" => $request, "status" => $status, "size" => $size, "referrer"=> $referrer, "user agent" => $user_agent]);
+    }
 }
 
 $outputJSON = json_encode($OUTPUT);
-$make_file = fopen("/home/jlxc106/Website/site_watch/logs/$today.log","w") or die("Unable to create new file");
+$make_file = fopen("logs/$today.json","w") or die("Unable to create new file");
 fwrite($make_file, $outputJSON);
 fclose($make_file);
 fclose($myfile);
